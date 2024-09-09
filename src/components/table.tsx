@@ -8,7 +8,6 @@ import {
 import { CloudIcon } from "@heroicons/react/24/solid";
 import { useMemo } from "preact/hooks";
 
-// import EmptyStateIcon from "@/assets/icons/empty-state";
 interface TableProps extends h.JSX.HTMLAttributes<HTMLTableElement> {}
 
 export const Table: FunctionalComponent<TableProps> = ({ children }) => {
@@ -203,7 +202,6 @@ interface TableFooter {
 export const TableFooter: FunctionalComponent<TableFooter> = ({
   children,
   className,
-  key = "footer",
 }) => {
   const classes = classNames(
     "border rounded-b-md border-gray-200 bg-white w-full px-4 py-3 sm:px-6",
