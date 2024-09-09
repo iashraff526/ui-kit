@@ -1,13 +1,4 @@
 import { FunctionalComponent } from "preact";
-import {
-  EllipsisVerticalIcon,
-  BuildingStorefrontIcon,
-  PhotoIcon,
-  QrCodeIcon,
-  UserGroupIcon,
-  ArrowDownCircleIcon,
-  BanknotesIcon,
-} from "@heroicons/react/24/solid";
 import Button from "../components/button";
 
 type ComponentProps = {
