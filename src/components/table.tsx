@@ -2,12 +2,11 @@ import classNames from "classnames";
 import {
   ComponentChild,
   ComponentChildren,
-  Fragment,
   FunctionalComponent,
   h,
 } from "preact";
-import { useEffect, useMemo } from "preact/hooks";
-// import { Loader } from "./loader";
+import { CloudIcon } from "@heroicons/react/24/solid";
+import { useMemo } from "preact/hooks";
 
 // import EmptyStateIcon from "@/assets/icons/empty-state";
 interface TableProps extends h.JSX.HTMLAttributes<HTMLTableElement> {}
@@ -29,13 +28,11 @@ export const Table: FunctionalComponent<TableProps> = ({ children }) => {
   );
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <div className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <table className="min-w-full border-x  rounded-b-lg divide-y divide-gray-300">
-          {_children}
-        </table>
-        {footer}
-      </div>
+    <div className="relative overflow-x-auto  ">
+      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        {_children}
+      </table>
+      {footer}
     </div>
   );
 };
@@ -53,9 +50,9 @@ export const TableHead: FunctionalComponent<THeadProps> = ({
   return (
     <thead
       className={classNames(
-        " text-gray-700 uppercase bg-gray-50   dark:bg-gray-1,00 dark:text-gray-400 ",
+        "  text-zinc-500 dark:text-white bg-gray-50 dark:bg-transparent ",
         {
-          "bg-primary-50": variant === "primary",
+          "bg-primary": variant === "primary",
           "text-sm": textSize === "sm",
           "text-base": textSize === "base",
           "text-lg": textSize === "lg",
@@ -74,13 +71,13 @@ export const TableBody: FunctionalComponent<{
   title?: string;
 }> = ({ children, isEmpty, isLoading, title }) => {
   return (
-    <tbody className="bg-white">
+    <tbody className="">
       {isEmpty && !isLoading ? (
         <tr className="">
-          <td className="pb-5" colSpan={100}>
+          <td className="pt-5" colSpan={100}>
             <div className="flex flex-col items-center justify-center">
-              {/* <EmptyStateIcon /> */}
-              <p className="text-center font-light text-[#667185] normal-case -mt-8">
+              <CloudIcon className={"w-10 pt-10"} />
+              <p className="text-center font-light text-[#667185] normal-case ">
                 No {title || "records"} found
               </p>
             </div>
@@ -88,10 +85,35 @@ export const TableBody: FunctionalComponent<{
         </tr>
       ) : null}
       {isLoading ? (
-        <tr className=" bg-gray-100">
-          <td className="py-12 " colSpan={100}>
-            <div className="w-full flex justify-center items-center">
-              {/* <Loader className="w-7 h-7 text-primary-500" /> */}
+        <tr className=" ">
+          <td className="" colSpan={100}>
+            <div
+              role="status"
+              class="w-full bg-transparent border-t py-4 px-2 space-y-4 divide-y divide-gray-200   animate-pulse dark:divide-zinc-700  dark:border-zinc-700"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                  <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+              </div>
+
+              <div class="flex items-center justify-between pt-4">
+                <div>
+                  <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                  <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+              </div>
+              <div class="flex items-center justify-between pt-4">
+                <div>
+                  <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                  <div class="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                </div>
+                <div class="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+              </div>
+              <span class="sr-only">Loading...</span>
             </div>
           </td>
         </tr>
@@ -114,7 +136,7 @@ export const TableHeadItem: FunctionalComponent<TableHeadItemProps> = ({
 }) => {
   const classes = classNames({
     "py-3.5 pl-4 pr-3 text-left font-semibold  sm:pl-6": first,
-    "px-3 py-3.5 text-left font-semibold ": !(first && last),
+    "px-3 py-3.5 text-left text-sm font-semibold	 ": !(first && last),
     "relative py-3.5 pl-3 pr-4 sm:pr-6": last,
     "text-right": alignment === "right",
     "text-center": alignment === "center",
@@ -133,15 +155,16 @@ interface TableRowProps {
 }
 export const TableRow: FunctionalComponent<TableRowProps> = ({
   children,
-  variant,
   striped,
 }) => {
   return (
     <tr
-      className={classNames("bg-white", {
-        "even:bg-gray-50": striped,
-        "odd:bg-primary-50": striped && variant === "primary",
-      })}
+      className={classNames(
+        " cursor-pointer bg-white border-b dark:bg-transparent dark:text-white dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-white/5",
+        {
+          "even:bg-gray-100 even:dark:bg-zinc-800": striped,
+        }
+      )}
     >
       {children}
     </tr>
@@ -161,9 +184,8 @@ export const TableCell: FunctionalComponent<TableCell> = ({
   alignment = "left",
 }) => {
   const classes = classNames({
-    "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-[#333333] sm:pl-6":
-      first,
-    "whitespace-nowrap px-3 py-4 text-sm text-[#333333] border-t": !(
+    "whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium  sm:pl-6": first,
+    "whitespace-nowrap px-3 py-4 text-sm ]  border-t dark:border-zinc-700": !(
       first && last
     ),
     "relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6":
